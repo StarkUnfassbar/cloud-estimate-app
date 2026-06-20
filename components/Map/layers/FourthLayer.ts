@@ -1,5 +1,8 @@
 import maplibregl from 'maplibre-gl';
 import cloudAreasJSON from './cloud/cloudAreas.json';
+import cloudAreas1JSON from './cloud/cloudAreas1.json';
+import cloudAreas2JSON from './cloud/cloudAreas2.json';
+import cloudAreas3JSON from './cloud/cloudAreas3.json';
 
 export interface Bounds {
     north: number;
@@ -27,23 +30,52 @@ interface CloudData {
     analysis?: any;
 }
 
-const rawData = cloudAreasJSON as any;
-const cloudData: CloudData = {
-    status: rawData.status || 'data_available',
-    message: rawData.message || '',
-    gridSize: rawData.gridSize || 50,
-    bounds: rawData.bounds,
-    cloudGrid: rawData.cloudGrid,
-    temperatureGrid: rawData.temperatureGrid,
-    surface: rawData.surface,
-    spectralGrids: rawData.spectralGrids,
-    analysis: rawData.analysis
-};
+// Массив всех наборов данных
+const ALL_DATA_SETS: CloudData[] = [
+    cloudAreasJSON as unknown as CloudData,
+    cloudAreas1JSON as unknown as CloudData,
+    cloudAreas2JSON as unknown as CloudData,
+    cloudAreas3JSON as unknown as CloudData
+];
 
-const hasData = cloudData.status !== 'no_data' && 
-                cloudData.spectralGrids && 
-                cloudData.spectralGrids.data && 
-                cloudData.spectralGrids.data.length > 0;
+// Функция для проверки соответствия координат
+function checkBoundsMatch(
+    userBounds: Bounds,
+    dataBounds: { north: number; south: number; east: number; west: number },
+    tolerance: number = 0.5
+): boolean {
+    return (
+        Math.abs(userBounds.north - dataBounds.north) <= tolerance &&
+        Math.abs(userBounds.south - dataBounds.south) <= tolerance &&
+        Math.abs(userBounds.east - dataBounds.east) <= tolerance &&
+        Math.abs(userBounds.west - dataBounds.west) <= tolerance
+    );
+}
+
+// Функция для поиска подходящего файла данных
+function findMatchingData(bounds: Bounds): CloudData | null {
+    for (const dataSet of ALL_DATA_SETS) {
+        if (dataSet.bounds && checkBoundsMatch(bounds, dataSet.bounds)) {
+            return dataSet;
+        }
+    }
+    return null;
+}
+
+// Получаем данные для текущих границ с кэшированием
+let cachedData: CloudData | null = null;
+let cachedBoundsKey: string = '';
+
+function getDataForBounds(bounds: Bounds): CloudData | null {
+    const boundsKey = `${bounds.north},${bounds.south},${bounds.east},${bounds.west}`;
+    
+    if (boundsKey !== cachedBoundsKey) {
+        cachedBoundsKey = boundsKey;
+        cachedData = findMatchingData(bounds);
+    }
+    
+    return cachedData;
+}
 
 let selectedBandIndex = 0;
 
@@ -82,27 +114,22 @@ function getSpectralColor(value: number, minVal: number, maxVal: number): { r: n
     return { r, g, b };
 }
 
-function getSpectralValue(bandIndex: number, row: number, col: number): number | null {
-    const { spectralGrids } = cloudData;
-    if (!hasData || !spectralGrids || !spectralGrids.data || spectralGrids.data.length === 0) {
-        return null;
-    }
-    if (bandIndex < 0 || bandIndex >= spectralGrids.data.length) {
-        return null;
-    }
-    const bandData = spectralGrids.data[bandIndex];
-    if (!bandData || row < 0 || row >= bandData.length || col < 0 || col >= bandData[row].length) {
-        return null;
-    }
-    return bandData[row][col];
-}
-
 function createSpectralFeatures(bounds: Bounds, bandIndex: number): GeoJSON.FeatureCollection {
+    const cloudData = getDataForBounds(bounds);
     const features: GeoJSON.Feature[] = [];
-    const { spectralGrids } = cloudData;
     
-    if (!hasData || !spectralGrids || !spectralGrids.data || spectralGrids.data.length === 0) {
+    if (!cloudData || !cloudData.spectralGrids || !cloudData.bounds) {
         return { type: 'FeatureCollection', features: [] };
+    }
+    
+    const { spectralGrids, bounds: dataBounds } = cloudData;
+    
+    if (!spectralGrids.data || spectralGrids.data.length === 0) {
+        return { type: 'FeatureCollection', features: [] };
+    }
+    
+    if (bandIndex >= spectralGrids.data.length) {
+        bandIndex = 0;
     }
     
     const bandData = spectralGrids.data[bandIndex];
@@ -113,8 +140,8 @@ function createSpectralFeatures(bounds: Bounds, bandIndex: number): GeoJSON.Feat
     const rows = spectralGrids.rows || bandData.length;
     const cols = spectralGrids.cols || (bandData[0]?.length || 0);
     
-    const cellSizeLat = (bounds.north - bounds.south) / rows;
-    const cellSizeLng = (bounds.east - bounds.west) / cols;
+    const cellSizeLat = (dataBounds.north - dataBounds.south) / rows;
+    const cellSizeLng = (dataBounds.east - dataBounds.west) / cols;
     
     if (cellSizeLat === 0 || cellSizeLng === 0) {
         return { type: 'FeatureCollection', features: [] };
@@ -156,10 +183,10 @@ function createSpectralFeatures(bounds: Bounds, bandIndex: number): GeoJSON.Feat
             
             if (value === null || value === undefined || isNaN(value)) continue;
             
-            const south = bounds.south + (row * cellSizeLat);
-            const north = bounds.south + ((row + 1) * cellSizeLat);
-            const west = bounds.west + (col * cellSizeLng);
-            const east = bounds.west + ((col + 1) * cellSizeLng);
+            const south = dataBounds.south + (row * cellSizeLat);
+            const north = dataBounds.south + ((row + 1) * cellSizeLat);
+            const west = dataBounds.west + (col * cellSizeLng);
+            const east = dataBounds.west + ((col + 1) * cellSizeLng);
             
             const color = getSpectralColor(value, minVal, maxVal);
             
@@ -199,7 +226,8 @@ let lastBoundsStr = '';
 let lastBandIndex = -1;
 
 export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    if (!cloudData || !cloudData.spectralGrids || !cloudData.bounds) {
         return;
     }
     
@@ -245,7 +273,7 @@ export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): 
 }
 
 export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
-    if (!hasData || !map.getSource('spectral-layer-source')) return;
+    if (!map.getSource('spectral-layer-source')) return;
     
     try {
         map.setPaintProperty('spectral-layer-fill', 'fill-opacity', opacity);
@@ -256,7 +284,9 @@ export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
 }
 
 export function updateLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    
+    if (!cloudData || !cloudData.spectralGrids || !cloudData.bounds) {
         if (map.getSource('spectral-layer-source')) {
             try {
                 if (map.getLayer('spectral-layer-fill')) {
@@ -306,7 +336,7 @@ export function getSelectedBand(): number {
     return selectedBandIndex;
 }
 
-export function getAvailableBands(): string[] {
-    const { spectralGrids } = cloudData;
-    return spectralGrids?.bands || [];
+export function getAvailableBands(bounds: Bounds): string[] {
+    const cloudData = getDataForBounds(bounds);
+    return cloudData?.spectralGrids?.bands || [];
 }

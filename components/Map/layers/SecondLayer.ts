@@ -1,5 +1,8 @@
 import maplibregl from 'maplibre-gl';
 import cloudAreasJSON from './cloud/cloudAreas.json';
+import cloudAreas1JSON from './cloud/cloudAreas1.json';
+import cloudAreas2JSON from './cloud/cloudAreas2.json';
+import cloudAreas3JSON from './cloud/cloudAreas3.json';
 
 export interface Bounds {
     north: number;
@@ -26,22 +29,64 @@ interface CloudData {
     analysis?: any;
 }
 
-const rawData = cloudAreasJSON as any;
-const cloudData: CloudData = {
-    status: rawData.status || 'data_available',
-    message: rawData.message || '',
-    gridSize: rawData.gridSize || 50,
-    bounds: rawData.bounds,
-    cloudGrid: rawData.cloudGrid,
-    temperatureGrid: rawData.temperatureGrid,
-    analysis: rawData.analysis
-};
+// Массив всех наборов данных
+const ALL_DATA_SETS: CloudData[] = [
+    cloudAreasJSON as CloudData,
+    cloudAreas1JSON as CloudData,
+    cloudAreas2JSON as CloudData,
+    cloudAreas3JSON as CloudData
+];
 
-const hasData = cloudData.status !== 'no_data' && 
-                cloudData.temperatureGrid && 
-                cloudData.temperatureGrid.data && 
-                cloudData.temperatureGrid.data.length > 0 &&
-                cloudData.bounds !== undefined;
+// Функция для проверки соответствия координат
+function checkBoundsMatch(
+    userBounds: Bounds,
+    dataBounds: { north: number; south: number; east: number; west: number },
+    tolerance: number = 0.5
+): boolean {
+    return (
+        Math.abs(userBounds.north - dataBounds.north) <= tolerance &&
+        Math.abs(userBounds.south - dataBounds.south) <= tolerance &&
+        Math.abs(userBounds.east - dataBounds.east) <= tolerance &&
+        Math.abs(userBounds.west - dataBounds.west) <= tolerance
+    );
+}
+
+// Функция для поиска подходящего файла данных
+function findMatchingData(bounds: Bounds): CloudData | null {
+    for (const dataSet of ALL_DATA_SETS) {
+        if (dataSet.bounds && checkBoundsMatch(bounds, dataSet.bounds)) {
+            return dataSet;
+        }
+    }
+    return null;
+}
+
+// Получаем данные для текущих границ с кэшированием
+let cachedData: CloudData | null = null;
+let cachedBoundsKey: string = '';
+
+function getDataForBounds(bounds: Bounds): CloudData | null {
+    const boundsKey = `${bounds.north},${bounds.south},${bounds.east},${bounds.west}`;
+    
+    if (boundsKey !== cachedBoundsKey) {
+        cachedBoundsKey = boundsKey;
+        cachedData = findMatchingData(bounds);
+    }
+    
+    return cachedData;
+}
+
+// Проверяет, есть ли данные для указанных границ
+function hasDataForBounds(bounds: Bounds): boolean {
+    const data = getDataForBounds(bounds);
+    if (!data) return false;
+    return data.status !== 'no_data' && 
+           data.temperatureGrid !== undefined && 
+           data.temperatureGrid !== null &&
+           data.temperatureGrid.data !== undefined &&
+           data.temperatureGrid.data !== null &&
+           data.temperatureGrid.data.length > 0;
+}
 
 function getGridValue(grid: (number | null)[][] | undefined, row: number, col: number): number | null {
     if (!grid || row < 0 || row >= grid.length || col < 0 || col >= grid[row].length) {
@@ -50,30 +95,31 @@ function getGridValue(grid: (number | null)[][] | undefined, row: number, col: n
     return grid[row][col];
 }
 
-function getTemperatureFromGrid(lat: number, lng: number): number | null {
-    if (!hasData || !cloudData.temperatureGrid || !cloudData.bounds) {
+function getTemperatureFromGrid(lat: number, lng: number, bounds: Bounds): number | null {
+    const cloudData = getDataForBounds(bounds);
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         return null;
     }
     
-    const { temperatureGrid, bounds } = cloudData;
+    const { temperatureGrid, bounds: dataBounds } = cloudData;
     
     if (!temperatureGrid.data || temperatureGrid.data.length === 0) {
         return null;
     }
     
-    if (lat < bounds.south || lat > bounds.north || lng < bounds.west || lng > bounds.east) {
+    if (lat < dataBounds.south || lat > dataBounds.north || lng < dataBounds.west || lng > dataBounds.east) {
         return null;
     }
     
-    const latRange = bounds.north - bounds.south;
-    const lngRange = bounds.east - bounds.west;
+    const latRange = dataBounds.north - dataBounds.south;
+    const lngRange = dataBounds.east - dataBounds.west;
     
     if (latRange === 0 || lngRange === 0) {
         return null;
     }
     
-    const latNorm = (lat - bounds.south) / latRange;
-    const lngNorm = (lng - bounds.west) / lngRange;
+    const latNorm = (lat - dataBounds.south) / latRange;
+    const lngNorm = (lng - dataBounds.west) / lngRange;
     
     const row = Math.floor(latNorm * (temperatureGrid.rows - 1));
     const col = Math.floor(lngNorm * (temperatureGrid.cols - 1));
@@ -81,30 +127,31 @@ function getTemperatureFromGrid(lat: number, lng: number): number | null {
     return getGridValue(temperatureGrid.data, row, col);
 }
 
-function getTemperatureBilinear(lat: number, lng: number): number | null {
-    if (!hasData || !cloudData.temperatureGrid || !cloudData.bounds) {
+function getTemperatureBilinear(lat: number, lng: number, bounds: Bounds): number | null {
+    const cloudData = getDataForBounds(bounds);
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         return null;
     }
     
-    const { temperatureGrid, bounds } = cloudData;
+    const { temperatureGrid, bounds: dataBounds } = cloudData;
     
     if (!temperatureGrid.data || temperatureGrid.data.length === 0) {
         return null;
     }
     
-    if (lat < bounds.south || lat > bounds.north || lng < bounds.west || lng > bounds.east) {
+    if (lat < dataBounds.south || lat > dataBounds.north || lng < dataBounds.west || lng > dataBounds.east) {
         return null;
     }
     
-    const latRange = bounds.north - bounds.south;
-    const lngRange = bounds.east - bounds.west;
+    const latRange = dataBounds.north - dataBounds.south;
+    const lngRange = dataBounds.east - dataBounds.west;
     
     if (latRange === 0 || lngRange === 0) {
         return null;
     }
     
-    const latNorm = (lat - bounds.south) / latRange;
-    const lngNorm = (lng - bounds.west) / lngRange;
+    const latNorm = (lat - dataBounds.south) / latRange;
+    const lngNorm = (lng - dataBounds.west) / lngRange;
     
     const rowFloat = latNorm * (temperatureGrid.rows - 1);
     const colFloat = lngNorm * (temperatureGrid.cols - 1);
@@ -138,20 +185,21 @@ function getTemperatureBilinear(lat: number, lng: number): number | null {
 }
 
 function createTemperatureFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
+    const cloudData = getDataForBounds(bounds);
     const features: GeoJSON.Feature[] = [];
     
-    if (!hasData || !cloudData.temperatureGrid) {
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         return { type: 'FeatureCollection', features: [] };
     }
     
-    const { temperatureGrid } = cloudData;
+    const { temperatureGrid, bounds: dataBounds } = cloudData;
     
     if (!temperatureGrid.data || temperatureGrid.data.length === 0) {
         return { type: 'FeatureCollection', features: [] };
     }
     
-    const cellSizeLat = (bounds.north - bounds.south) / temperatureGrid.rows;
-    const cellSizeLng = (bounds.east - bounds.west) / temperatureGrid.cols;
+    const cellSizeLat = (dataBounds.north - dataBounds.south) / temperatureGrid.rows;
+    const cellSizeLng = (dataBounds.east - dataBounds.west) / temperatureGrid.cols;
     
     if (cellSizeLat === 0 || cellSizeLng === 0) {
         return { type: 'FeatureCollection', features: [] };
@@ -184,10 +232,10 @@ function createTemperatureFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
             
             if (value === null || value === undefined) continue;
             
-            const south = bounds.south + (row * cellSizeLat);
-            const north = bounds.south + ((row + 1) * cellSizeLat);
-            const west = bounds.west + (col * cellSizeLng);
-            const east = bounds.west + ((col + 1) * cellSizeLng);
+            const south = dataBounds.south + (row * cellSizeLat);
+            const north = dataBounds.south + ((row + 1) * cellSizeLat);
+            const west = dataBounds.west + (col * cellSizeLng);
+            const east = dataBounds.west + ((col + 1) * cellSizeLng);
             
             const normalizedTemp = tempRange > 0 ? (value - minTemp) / tempRange : 0.5;
             
@@ -221,13 +269,14 @@ function createTemperatureFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
 }
 
 function createSmoothTemperatureFeatures(bounds: Bounds, subdivision: number = 2): GeoJSON.FeatureCollection {
+    const cloudData = getDataForBounds(bounds);
     const features: GeoJSON.Feature[] = [];
     
-    if (!hasData || !cloudData.temperatureGrid) {
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         return { type: 'FeatureCollection', features: [] };
     }
     
-    const { temperatureGrid } = cloudData;
+    const { temperatureGrid, bounds: dataBounds } = cloudData;
     
     if (!temperatureGrid.data || temperatureGrid.data.length === 0) {
         return { type: 'FeatureCollection', features: [] };
@@ -236,8 +285,8 @@ function createSmoothTemperatureFeatures(bounds: Bounds, subdivision: number = 2
     const subRows = temperatureGrid.rows * subdivision;
     const subCols = temperatureGrid.cols * subdivision;
     
-    const cellSizeLat = (bounds.north - bounds.south) / subRows;
-    const cellSizeLng = (bounds.east - bounds.west) / subCols;
+    const cellSizeLat = (dataBounds.north - dataBounds.south) / subRows;
+    const cellSizeLng = (dataBounds.east - dataBounds.west) / subCols;
     
     if (cellSizeLat === 0 || cellSizeLng === 0) {
         return { type: 'FeatureCollection', features: [] };
@@ -248,10 +297,10 @@ function createSmoothTemperatureFeatures(bounds: Bounds, subdivision: number = 2
     
     for (let row = 0; row < subRows; row++) {
         for (let col = 0; col < subCols; col++) {
-            const centerLat = bounds.south + (row * cellSizeLat) + cellSizeLat / 2;
-            const centerLng = bounds.west + (col * cellSizeLng) + cellSizeLng / 2;
+            const centerLat = dataBounds.south + (row * cellSizeLat) + cellSizeLat / 2;
+            const centerLng = dataBounds.west + (col * cellSizeLng) + cellSizeLng / 2;
             
-            const temp = getTemperatureBilinear(centerLat, centerLng);
+            const temp = getTemperatureBilinear(centerLat, centerLng, bounds);
             if (temp !== null) {
                 const key = `${row},${col}`;
                 tempMap.set(key, temp);
@@ -275,10 +324,10 @@ function createSmoothTemperatureFeatures(bounds: Bounds, subdivision: number = 2
             
             if (temp === undefined) continue;
             
-            const south = bounds.south + (row * cellSizeLat);
-            const north = bounds.south + ((row + 1) * cellSizeLat);
-            const west = bounds.west + (col * cellSizeLng);
-            const east = bounds.west + ((col + 1) * cellSizeLng);
+            const south = dataBounds.south + (row * cellSizeLat);
+            const north = dataBounds.south + ((row + 1) * cellSizeLat);
+            const west = dataBounds.west + (col * cellSizeLng);
+            const east = dataBounds.west + ((col + 1) * cellSizeLng);
             
             const normalizedTemp = tempRange > 0 ? (temp - minTemp) / tempRange : 0.5;
             
@@ -316,7 +365,8 @@ let smoothMode = true;
 let subdivisionFactor = 2;
 
 export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         return;
     }
     
@@ -399,7 +449,7 @@ export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): 
 }
 
 export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
-    if (!hasData || !map.getSource('temperature-layer-source')) return;
+    if (!map.getSource('temperature-layer-source')) return;
     
     try {
         map.setPaintProperty('temperature-layer-fill', 'fill-opacity', opacity);
@@ -411,7 +461,9 @@ export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
 }
 
 export function updateLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    
+    if (!cloudData || !cloudData.temperatureGrid || !cloudData.bounds) {
         if (map.getSource('temperature-layer-source')) {
             try {
                 if (map.getLayer('temperature-layer-fill')) {

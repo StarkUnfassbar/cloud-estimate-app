@@ -1,5 +1,8 @@
 import maplibregl from 'maplibre-gl';
 import cloudAreasJSON from './cloud/cloudAreas.json';
+import cloudAreas1JSON from './cloud/cloudAreas1.json';
+import cloudAreas2JSON from './cloud/cloudAreas2.json';
+import cloudAreas3JSON from './cloud/cloudAreas3.json';
 
 export interface Bounds {
     north: number;
@@ -27,22 +30,52 @@ interface CloudData {
     analysis?: any;
 }
 
-const rawData = cloudAreasJSON as any;
-const cloudData: CloudData = {
-    status: rawData.status || 'data_available',
-    message: rawData.message || '',
-    gridSize: rawData.gridSize || 50,
-    bounds: rawData.bounds,
-    cloudGrid: rawData.cloudGrid,
-    temperatureGrid: rawData.temperatureGrid,
-    surface: rawData.surface,
-    analysis: rawData.analysis
-};
+// Массив всех наборов данных
+const ALL_DATA_SETS: CloudData[] = [
+    cloudAreasJSON as CloudData,
+    cloudAreas1JSON as CloudData,
+    cloudAreas2JSON as CloudData,
+    cloudAreas3JSON as CloudData
+];
 
-const hasData = cloudData.status !== 'no_data' && 
-                cloudData.surface && 
-                cloudData.surface.data && 
-                cloudData.surface.data.length > 0;
+// Функция для проверки соответствия координат
+function checkBoundsMatch(
+    userBounds: Bounds,
+    dataBounds: { north: number; south: number; east: number; west: number },
+    tolerance: number = 0.5
+): boolean {
+    return (
+        Math.abs(userBounds.north - dataBounds.north) <= tolerance &&
+        Math.abs(userBounds.south - dataBounds.south) <= tolerance &&
+        Math.abs(userBounds.east - dataBounds.east) <= tolerance &&
+        Math.abs(userBounds.west - dataBounds.west) <= tolerance
+    );
+}
+
+// Функция для поиска подходящего файла данных
+function findMatchingData(bounds: Bounds): CloudData | null {
+    for (const dataSet of ALL_DATA_SETS) {
+        if (dataSet.bounds && checkBoundsMatch(bounds, dataSet.bounds)) {
+            return dataSet;
+        }
+    }
+    return null;
+}
+
+// Получаем данные для текущих границ с кэшированием
+let cachedData: CloudData | null = null;
+let cachedBoundsKey: string = '';
+
+function getDataForBounds(bounds: Bounds): CloudData | null {
+    const boundsKey = `${bounds.north},${bounds.south},${bounds.east},${bounds.west}`;
+    
+    if (boundsKey !== cachedBoundsKey) {
+        cachedBoundsKey = boundsKey;
+        cachedData = findMatchingData(bounds);
+    }
+    
+    return cachedData;
+}
 
 const SURFACE_COLORS: Record<number, { r: number; g: number; b: number; label: string }> = {
     [-1]: { r: 0, g: 0, b: 0, label: 'undefined' },
@@ -53,36 +86,22 @@ const SURFACE_COLORS: Record<number, { r: number; g: number; b: number; label: s
     [4]: { r: 139, g: 69, b: 19, label: 'land' },
 };
 
-function getSurfaceValue(row: number, col: number): number {
-    const { surface } = cloudData;
-    if (!hasData || !surface || !surface.data || surface.data.length === 0) {
-        return -1;
-    }
-    if (row < 0 || row >= surface.data.length || col < 0 || col >= surface.data[row].length) {
-        return -1;
-    }
-    const value = surface.data[row]?.[col];
-    return value !== undefined ? value : -1;
-}
-
-function getSurfaceColor(value: number): { r: number; g: number; b: number } {
-    const color = SURFACE_COLORS[value];
-    if (!color) {
-        return { r: 128, g: 128, b: 128 };
-    }
-    return { r: color.r, g: color.g, b: color.b };
-}
-
 function createSurfaceFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
+    const cloudData = getDataForBounds(bounds);
     const features: GeoJSON.Feature[] = [];
-    const { surface } = cloudData;
-
-    if (!hasData || !surface || !surface.data || surface.data.length === 0) {
+    
+    if (!cloudData || !cloudData.surface || !cloudData.bounds) {
         return { type: 'FeatureCollection', features: [] };
     }
 
-    const cellSizeLat = (bounds.north - bounds.south) / surface.rows;
-    const cellSizeLng = (bounds.east - bounds.west) / surface.cols;
+    const { surface, bounds: dataBounds } = cloudData;
+    
+    if (!surface.data || surface.data.length === 0) {
+        return { type: 'FeatureCollection', features: [] };
+    }
+
+    const cellSizeLat = (dataBounds.north - dataBounds.south) / surface.rows;
+    const cellSizeLng = (dataBounds.east - dataBounds.west) / surface.cols;
 
     if (cellSizeLat === 0 || cellSizeLng === 0) {
         return { type: 'FeatureCollection', features: [] };
@@ -97,12 +116,13 @@ function createSurfaceFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
 
             if (value === -1 || value === undefined) continue;
 
-            const south = bounds.south + (row * cellSizeLat);
-            const north = bounds.south + ((row + 1) * cellSizeLat);
-            const west = bounds.west + (col * cellSizeLng);
-            const east = bounds.west + ((col + 1) * cellSizeLng);
+            const south = dataBounds.south + (row * cellSizeLat);
+            const north = dataBounds.south + ((row + 1) * cellSizeLat);
+            const west = dataBounds.west + (col * cellSizeLng);
+            const east = dataBounds.west + ((col + 1) * cellSizeLng);
 
-            const color = getSurfaceColor(value);
+            const colorObj = SURFACE_COLORS[value];
+            const color = colorObj ? colorObj : { r: 128, g: 128, b: 128 };
 
             features.push({
                 type: 'Feature',
@@ -137,7 +157,8 @@ function createSurfaceFeatures(bounds: Bounds): GeoJSON.FeatureCollection {
 let lastBoundsStr = '';
 
 export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    if (!cloudData || !cloudData.surface || !cloudData.bounds) {
         return;
     }
     
@@ -191,7 +212,7 @@ export function addLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): 
 }
 
 export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
-    if (!hasData || !map.getSource('surface-layer-source')) return;
+    if (!map.getSource('surface-layer-source')) return;
 
     try {
         map.setPaintProperty('surface-layer-fill', 'fill-opacity', opacity);
@@ -202,7 +223,9 @@ export function setOpacityOnly(map: maplibregl.Map, opacity: number): void {
 }
 
 export function updateLayer(map: maplibregl.Map, bounds: Bounds, opacity: number): void {
-    if (!hasData) {
+    const cloudData = getDataForBounds(bounds);
+    
+    if (!cloudData || !cloudData.surface || !cloudData.bounds) {
         if (map.getSource('surface-layer-source')) {
             try {
                 if (map.getLayer('surface-layer-fill')) {

@@ -9,31 +9,31 @@ import Notification from '../components/Notification/Notification';
 
 const regionOptions = [
     { 
-        value: 'moscow', 
-        label: 'Москва и область',
-        coords: { north: 56.5, south: 55.0, east: 38.5, west: 36.5 }
+        value: 'siberia', 
+        label: 'Россия. Сибирь',
+        coords: { north: 70.0, south: 57.0, east: 130.5, west: 80.04 }
     },
     { 
-        value: 'spb', 
-        label: 'Санкт-Петербург и область',
-        coords: { north: 60.5, south: 59.0, east: 31.0, west: 29.0 }
+        value: 'paraguay', 
+        label: 'Южная Америка. Парагвай',
+        coords: { north: -20.0, south: -40.0, east: -45.0, west: -70.0 }
     },
     { 
-        value: 'sochi', 
-        label: 'Сочи и Черноморское побережье',
-        coords: { north: 44.0, south: 43.0, east: 40.0, west: 38.5 }
+        value: 'atlantic', 
+        label: 'Атлантический океан',
+        coords: { north: -30.0, south: -60.0, east: 10.0, west: -40.0 }
     },
     { 
-        value: 'crimea', 
-        label: 'Крымский полуостров',
-        coords: { north: 46.0, south: 44.5, east: 36.5, west: 33.5 }
+        value: 'north_america', 
+        label: 'Северная Америка',
+        coords: { north: 40.0, south: 27.0, east: -75.0, west: -95.8 }
     }
 ];
 
 export default function Home() {
     const router = useRouter();
 
-    const [regionInputType, setRegionInputType] = useState("coords");
+    const [regionInputType, setRegionInputType] = useState("draw"); // ← изменено с "coords" на "draw"
     const [selectedRegion, setSelectedRegion] = useState('moscow');
     
     const dataSourceOptions = [
@@ -143,7 +143,7 @@ export default function Home() {
         setSelectedDate('');
         setSelectedTime('');
         setSelectedDataSource('nasa');
-        setRegionInputType('coords');
+        setRegionInputType('draw'); // ← также изменено с "coords" на "draw"
         setSelectedRegion('moscow');
     };
 
@@ -475,23 +475,41 @@ export default function Home() {
 
                                 <div className={styles['additional-part']}>
                                     <button 
-                                        className={`${regionInputType === 'coords' ? styles['_active'] : ''}`}
-                                        onClick={() => setRegionInputType('coords')}
-                                    >
-                                        Ввести координаты области
-                                    </button>
-
-                                    <button 
                                         className={`${regionInputType === 'draw' ? styles['_active'] : ''}`}
                                         onClick={() => setRegionInputType('draw')}
                                     >
                                         Выбрать регион
                                     </button>
+
+                                    <button 
+                                        className={`${regionInputType === 'coords' ? styles['_active'] : ''}`}
+                                        onClick={() => setRegionInputType('coords')}
+                                    >
+                                        Ввести координаты области
+                                    </button>
                                 </div>
                             </div>
 
                             <div className={styles['section-content']}>
-                                {regionInputType === 'coords' ? (
+                                {regionInputType === 'draw' ? (
+                                    <>
+                                        <span>Выберите один из предустановленных регионов</span>
+
+                                        <div className={styles['region-select-container']}>
+                                            <CustomSelect
+                                                options={regionOptions.map(r => ({ 
+                                                    value: r.value, 
+                                                    label: r.label 
+                                                }))}
+                                                defaultValue="moscow"
+                                                placeholder="Выберите регион"
+                                                showRecommendationBadge={false}
+                                                onChange={(value) => setSelectedRegion(value)}
+                                                value={selectedRegion}
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
                                     <>
                                         <span>Задайте прямоугольную область на карте используя координаты</span>
 
@@ -559,24 +577,6 @@ export default function Home() {
                                                     <span className={styles['degree-symbol']}>°</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span>Выберите один из предустановленных регионов</span>
-
-                                        <div className={styles['region-select-container']}>
-                                            <CustomSelect
-                                                options={regionOptions.map(r => ({ 
-                                                    value: r.value, 
-                                                    label: r.label 
-                                                }))}
-                                                defaultValue="moscow"
-                                                placeholder="Выберите регион"
-                                                showRecommendationBadge={false}
-                                                onChange={(value) => setSelectedRegion(value)}
-                                                value={selectedRegion}
-                                            />
                                         </div>
                                     </>
                                 )}
