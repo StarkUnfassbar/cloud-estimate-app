@@ -222,7 +222,25 @@ function MapContent() {
         }
     }, [coordinates]);
 
+    // НОВАЯ ФУНКЦИЯ: загрузка только с таймером (без поиска данных)
+    const loadWithTimerOnly = useCallback(() => {
+        setIsLoading(true);
+        // Просто показываем загрузку 3 секунды, не трогая данные
+        // Данные остаются те же, что были загружены ранее
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
+    }, []);
+
     useEffect(() => {
+        // СТАРАЯ МЕХАНИКА - закомментирована
+        // setIsLoading(true);
+        // const timer = setTimeout(() => {
+        //     loadDataFromJSON();
+        // }, 1500);
+        // return () => clearTimeout(timer);
+        
+        // НОВАЯ МЕХАНИКА: при изменении координат - полная перезагрузка с поиском данных
         setIsLoading(true);
         const timer = setTimeout(() => {
             loadDataFromJSON();
@@ -303,20 +321,35 @@ function MapContent() {
         }
     }
 
+    // ИЗМЕНЕНА: теперь использует loadWithTimerOnly для источника данных и даты/времени
     const reloadData = useCallback(() => {
+        // СТАРАЯ МЕХАНИКА - закомментирована
+        // setIsLoading(true);
+        // setMapKey(prev => prev + 1);
+        // mapRef.current = null;
+        // setAnalysisData(null);
+        // setRawData(null);
+        // setDataFound(true);
+        
+        // НОВАЯ МЕХАНИКА: просто показываем загрузку 3 секунды и пересоздаем карту
         setIsLoading(true);
         setMapKey(prev => prev + 1);
         mapRef.current = null;
-        setAnalysisData(null);
-        setRawData(null);
-        setDataFound(true);
+        // НЕ сбрасываем данные - они остаются те же
+        // setAnalysisData(null);
+        // setRawData(null);
+        // setDataFound(true);
+        
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
     }, []);
 
     const applyDateTimeChanges = useCallback(() => {
         if (tempDate !== selectedDate || tempTime !== selectedTime) {
             setSelectedDate(tempDate);
             setSelectedTime(tempTime);
-            reloadData();
+            reloadData(); // Теперь reloadData просто показывает загрузку 3 секунды
         }
     }, [tempDate, tempTime, selectedDate, selectedTime, reloadData]);
 
@@ -387,6 +420,7 @@ function MapContent() {
 
     const handleCoordinatesChange = (newCoordinates: typeof coordinates) => {
         setCoordinates(newCoordinates);
+        // При изменении координат reloadData перезагрузит с поиском данных (через useEffect)
         reloadData();
     };
 
@@ -400,7 +434,7 @@ function MapContent() {
 
     const handleDataSourceChange = (value: string) => {
         setSelectedDataSource(value);
-        reloadData();
+        reloadData(); // Теперь reloadData просто показывает загрузку 3 секунды
     };
 
     const getAnalysisData = () => {
