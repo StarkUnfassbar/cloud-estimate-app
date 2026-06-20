@@ -1,0 +1,1266 @@
+.map-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.map-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ===== HEADER ===== */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    height: 100px;
+    border-bottom: 2px #fff solid;
+    background-color: #241D2A;
+    box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.5);
+    padding: 0 50px;
+    box-sizing: border-box;
+    pointer-events: auto;
+}
+
+.header-left {
+    display: flex;
+    justify-content: left;
+    width: fit-content;
+    height: fit-content;
+}
+
+.header-left .icon {
+    width: fit-content;
+    height: 65px;
+    cursor: pointer;
+}
+
+.header-left .icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.header-right {
+    display: flex;
+    justify-content: right;
+    gap: 20px;
+    width: 100%;
+    height: fit-content;
+}
+
+.header-right .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    min-width: 230px;
+    height: 60px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 3px;
+    background-color: rgb(27, 22, 33);
+    padding: 0 15px;
+}
+
+.header-right .input-wrapper .input-label {
+    color: rgb(157, 167, 184);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.header-right .input-wrapper .input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.header-right .input-wrapper .input-container .block-inputs {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.header-right .input-wrapper .input-container .block-inputs input {
+    all: unset;
+    width: auto;
+    min-width: 0;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.header-right .input-wrapper .input-container .block-inputs input[type="date"] {
+    width: 95px;
+}
+
+.header-right .input-wrapper .input-container .block-inputs input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.header-right .input-wrapper .input-container .block-inputs input[type="time"] {
+    width: 50px;
+}
+
+.header-right .input-wrapper .input-container .block-inputs input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.header-right .input-wrapper .input-container .icon {
+    width: 15px;
+    min-width: 15px;
+    height: 15px;
+}
+
+.header-right .input-wrapper .input-container .icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== DESKTOP CONTROLS ===== */
+.desktop-controls {
+    display: block;
+}
+
+/* ===== CLOUD LAYERS ===== */
+.cloud-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 350px;
+    height: fit-content;
+    position: absolute;
+    top: calc(100px + 15px);
+    right: 15px;
+    pointer-events: auto;
+}
+
+.type-analysis {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 60px;
+    border: 2px #fff solid;
+    border-radius: 7px;
+    background-color: #241D2A;
+    box-shadow: -2px 3px 2px 0px rgba(0, 0, 0, 0.5);
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.type-analysis p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.layers-analysis {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    border: 2px #fff solid;
+    border-radius: 7px;
+    background-color: #241D2A;
+    box-shadow: -2px 3px 2px 0px rgba(0, 0, 0, 0.5);
+    padding: 15px 15px;
+    box-sizing: border-box;
+}
+
+.layers-analysis span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.layer-visibility {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.layer-visibility .upper-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layer-visibility .upper-part p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.layer-visibility .upper-part button {
+    all: unset;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.layer-visibility .upper-part button svg {
+    width: 100%;
+    height: 100%;
+}
+
+.layer-visibility .down-part {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+}
+
+/* ===== FINISH ANALYSIS ===== */
+.finish-analysis {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 350px;
+    height: fit-content;
+    position: absolute;
+    top: calc(100px + 15px);
+    left: 15px;
+    pointer-events: auto;
+}
+
+.button-download {
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 55px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    border: 2px #fff solid;
+    border-radius: 7px;
+    background-color: #241D2A;
+    box-shadow: -2px 3px 2px 0px rgba(0, 0, 0, 0.5);
+    padding: 0 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.result-analysis {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    border: 2px #fff solid;
+    border-radius: 7px;
+    background-color: #241D2A;
+    box-shadow: -2px 3px 2px 0px rgba(0, 0, 0, 0.5);
+    padding: 15px 15px 20px;
+    box-sizing: border-box;
+}
+
+.result-analysis h3 {
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.result-analysis h3::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #4f475a;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+}
+
+.result-analysis .percentage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.result-analysis .percentage::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #4f475a;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+}
+
+.result-analysis .percentage span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 7px;
+}
+
+.result-analysis .percentage h1 {
+    color: #fff;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.result-analysis .verdict {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.result-analysis .verdict::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #4f475a;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+}
+
+.result-analysis .verdict span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.result-analysis .verdict .text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 90%;
+}
+
+.result-analysis .verdict .text h4 {
+    color: #EFD55E;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.result-analysis .verdict.good h4 {
+    color: #6DCA6E;
+}
+
+.result-analysis .verdict.neutral h4 {
+    color: #EFD55E;
+}
+
+.result-analysis .verdict.bad h4 {
+    color: #FF6B6B;
+}
+
+.result-analysis .verdict .text p {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.result-analysis .temperature {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.result-analysis .temperature::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #4f475a;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+}
+
+.result-analysis .temperature span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.result-analysis .temperature .temperature-indicators {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #9B8999;
+    border-radius: 3px;
+    background-color: #241D2A;
+    box-sizing: border-box;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator p {
+    color: #4D91E9;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator.low p {
+    color: #4D91E9;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator.medium p {
+    color: #EFD55E;
+}
+
+.result-analysis .temperature .temperature-indicators .indicator.high p {
+    color: #FF6B6B;
+}
+
+.result-analysis .dynamics {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+.result-analysis .dynamics span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.result-analysis .dynamics .text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 90%;
+}
+
+.result-analysis .dynamics .text h4 {
+    color: #6DCA6E;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.result-analysis .dynamics.good h4 {
+    color: #6DCA6E;
+}
+
+.result-analysis .dynamics.neutral h4 {
+    color: #EFD55E;
+}
+
+.result-analysis .dynamics.bad h4 {
+    color: #FF6B6B;
+}
+
+.result-analysis .dynamics .text p {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.mobile-menu-toggle svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    pointer-events: auto;
+}
+
+.mobile-menu-overlay.active {
+    display: block;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 400px;
+    height: 100%;
+    background: #241D2A;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    pointer-events: auto;
+    border-left: 2px solid #4f475a;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #4f475a;
+    margin-bottom: 20px;
+}
+
+.mobile-menu-header h2 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.mobile-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mobile-menu-close svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-menu-divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #4f475a, transparent);
+    margin: 10px 0 15px 0;
+}
+
+/* Мобильные стили для элементов внутри меню */
+.mobile-menu-content .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    min-width: 230px;
+    width: 100%;
+    height: 60px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 3px;
+    background-color: rgb(27, 22, 33);
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.mobile-menu-content .input-wrapper .input-label {
+    color: rgb(157, 167, 184);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.mobile-menu-content .input-wrapper .input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs input {
+    all: unset;
+    width: auto;
+    min-width: 0;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs input[type="date"] {
+    width: 95px;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs input[type="time"] {
+    width: 50px;
+}
+
+.mobile-menu-content .input-wrapper .input-container .block-inputs input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.mobile-menu-content .input-wrapper .input-container .icon {
+    width: 15px;
+    min-width: 15px;
+    height: 15px;
+}
+
+.mobile-menu-content .input-wrapper .input-container .icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.mobile-menu-content .header-select-wrapper {
+    width: 100%;
+}
+
+.mobile-menu-content .header-select-wrapper .input-wrapper {
+    min-width: auto;
+}
+
+/* Адаптация cloud-layers и finish-analysis для мобильного меню */
+.mobile-menu-content .cloud-layers {
+    position: static;
+    width: 100%;
+    top: auto;
+    right: auto;
+    pointer-events: auto;
+}
+
+.mobile-menu-content .finish-analysis {
+    position: static;
+    width: 100%;
+    top: auto;
+    left: auto;
+    pointer-events: auto;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1a151f;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.loading-content p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@media (max-width: 1600px) {
+    .header {
+        height: 80px;
+    }
+
+    .header-left .icon {
+        height: 55px;
+    }
+
+    .header-right .input-wrapper {
+        min-width: 200px;
+        height: 56px;
+    }
+
+    .header-right .input-wrapper .input-label {
+        font-size: 13px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input {
+        font-size: 15px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input[type="date"] {
+        width: 80px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input[type="time"] {
+        width: 40px;
+    }
+
+    .cloud-layers {
+        width: 310px;
+        top: calc(80px + 15px);
+        right: 15px;
+    }
+
+    .type-analysis {
+        gap: 10px;
+        height: 50px;
+    }
+
+    .type-analysis p {
+        font-size: 16px;
+    }
+
+    .layer-visibility {
+        gap: 5px;
+    }
+
+    .layers-analysis span {
+        font-size: 14px;
+    }
+
+    .layer-visibility .upper-part p {
+        font-size: 16px;
+    }
+
+    .layer-visibility .upper-part button {
+        width: 20px;
+        height: 20px;
+    }
+
+    .finish-analysis {
+        width: 310px;
+        top: calc(80px + 15px);
+        left: 15px;
+    }
+
+    .button-download {
+        height: 50px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 0 15px;
+    }
+
+    .result-analysis h3 {
+        font-size: 16px;
+    }
+
+    .result-analysis .percentage span {
+        font-size: 14px;
+    }
+
+    .result-analysis .percentage h1 {
+        font-size: 40px;
+    }
+
+    .result-analysis .verdict span {
+        font-size: 14px;
+    }
+
+    .result-analysis .verdict .text h4 {
+        font-size: 16px;
+    }
+
+    .result-analysis .verdict .text p {
+        font-size: 14px;
+    }
+
+    .result-analysis .temperature span {
+        font-size: 14px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator span {
+        font-size: 12px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator p {
+        font-size: 22px;
+    }
+
+    .result-analysis .dynamics span {
+        font-size: 14px;
+    }
+
+    .result-analysis .dynamics .text h4 {
+        font-size: 16px;
+    }
+
+    .result-analysis .dynamics .text p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .header {
+        height: 80px;
+        padding: 0 20px;
+    }
+
+    .header-left .icon {
+        height: 55px;
+    }
+
+    .header-right .input-wrapper {
+        min-width: 200px;
+        height: 56px;
+    }
+
+    .header-right .input-wrapper .input-label {
+        font-size: 13px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input {
+        font-size: 15px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input[type="date"] {
+        width: 80px;
+    }
+
+    .header-right .input-wrapper .input-container .block-inputs input[type="time"] {
+        width: 40px;
+    }
+
+    .cloud-layers {
+        width: 310px;
+        top: calc(80px + 15px);
+        right: 15px;
+    }
+
+    .type-analysis {
+        gap: 10px;
+        height: 50px;
+    }
+
+    .layer-visibility {
+        gap: 5px;
+    }
+
+    .layers-analysis span {
+        font-size: 14px;
+    }
+
+    .layer-visibility .upper-part p {
+        font-size: 16px;
+    }
+
+    .layer-visibility .upper-part button {
+        width: 20px;
+        height: 20px;
+    }
+
+    .finish-analysis {
+        width: 310px;
+        top: calc(80px + 15px);
+        left: 15px;
+    }
+
+    .button-download {
+        height: 50px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+        padding: 0 15px;
+    }
+
+    .result-analysis h3 {
+        font-size: 16px;
+    }
+
+    .result-analysis .percentage span {
+        font-size: 14px;
+    }
+
+    .result-analysis .percentage h1 {
+        font-size: 40px;
+    }
+
+    .result-analysis .verdict span {
+        font-size: 14px;
+    }
+
+    .result-analysis .verdict .text h4 {
+        font-size: 16px;
+    }
+
+    .result-analysis .verdict .text p {
+        font-size: 14px;
+    }
+
+    .result-analysis .temperature span {
+        font-size: 14px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator span {
+        font-size: 12px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator p {
+        font-size: 22px;
+    }
+
+    .result-analysis .dynamics span {
+        font-size: 14px;
+    }
+
+    .result-analysis .dynamics .text h4 {
+        font-size: 16px;
+    }
+
+    .result-analysis .dynamics .text p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .header-right {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header {
+        height: 70px;
+        padding: 0 20px;
+        gap: 15px;
+    }
+
+    .header-left .icon {
+        height: 45px;
+    }
+
+    /* Скрываем десктопные элементы управления */
+    .desktop-controls {
+        display: none;
+    }
+
+    /* Уменьшаем элементы управления на карте (если они все еще видны) */
+    .cloud-layers {
+        width: 280px;
+        top: calc(70px + 10px);
+        right: 10px;
+    }
+
+    .finish-analysis {
+        width: 280px;
+        top: calc(70px + 10px);
+        left: 10px;
+    }
+
+    .type-analysis {
+        height: 45px;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .type-analysis p {
+        font-size: 14px;
+    }
+
+    .layers-analysis {
+        padding: 10px;
+    }
+
+    .layers-analysis span {
+        font-size: 13px;
+    }
+
+    .layer-visibility .upper-part p {
+        font-size: 14px;
+    }
+
+    .button-download {
+        height: 45px;
+        font-size: 14px;
+    }
+
+    .result-analysis {
+        padding: 12px;
+    }
+
+    .result-analysis h3 {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .result-analysis .percentage h1 {
+        font-size: 32px;
+    }
+
+    .result-analysis .percentage span {
+        font-size: 13px;
+    }
+
+    .result-analysis .verdict .text h4 {
+        font-size: 15px;
+    }
+
+    .result-analysis .verdict .text p {
+        font-size: 13px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator p {
+        font-size: 18px;
+    }
+
+    .result-analysis .temperature .temperature-indicators .indicator span {
+        font-size: 11px;
+    }
+
+    .result-analysis .dynamics .text h4 {
+        font-size: 15px;
+    }
+
+    .result-analysis .dynamics .text p {
+        font-size: 13px;
+    }
+
+    /* Стили для элементов в мобильном меню */
+    .mobile-menu-content .input-wrapper {
+        min-width: auto;
+        height: 56px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-label {
+        font-size: 13px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input {
+        font-size: 15px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input[type="date"] {
+        width: 80px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input[type="time"] {
+        width: 40px;
+    }
+
+    /* Адаптация cloud-layers внутри мобильного меню */
+    .mobile-menu-content .cloud-layers .type-analysis {
+        height: 50px;
+        gap: 10px;
+        padding: 0 12px;
+    }
+
+    .mobile-menu-content .cloud-layers .type-analysis p {
+        font-size: 15px;
+    }
+
+    .mobile-menu-content .cloud-layers .layers-analysis {
+        padding: 12px;
+    }
+
+    .mobile-menu-content .cloud-layers .layer-visibility .upper-part p {
+        font-size: 15px;
+    }
+
+    /* Адаптация finish-analysis внутри мобильного меню */
+    .mobile-menu-content .finish-analysis .button-download {
+        height: 48px;
+        font-size: 15px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis {
+        padding: 12px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis h3 {
+        font-size: 16px;
+        margin-bottom: 25px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .percentage h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 60px;
+        padding: 0 12px;
+    }
+
+    .header-left .icon {
+        height: 35px;
+    }
+
+    .mobile-menu-toggle svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .cloud-layers {
+        width: 220px;
+        top: calc(60px + 10px);
+        right: 8px;
+    }
+
+    .finish-analysis {
+        width: 220px;
+        top: calc(60px + 10px);
+        left: 8px;
+    }
+
+    .mobile-menu {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .mobile-menu-content .input-wrapper {
+        height: 50px;
+        padding: 0 12px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-label {
+        font-size: 12px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input {
+        font-size: 14px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input[type="date"] {
+        width: 80px;
+    }
+
+    .mobile-menu-content .input-wrapper .input-container .block-inputs input[type="time"] {
+        width: 45px;
+    }
+
+    /* Адаптация cloud-layers внутри мобильного меню */
+    .mobile-menu-content .cloud-layers .type-analysis {
+        height: 44px;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .mobile-menu-content .cloud-layers .type-analysis p {
+        font-size: 13px;
+    }
+
+    .mobile-menu-content .cloud-layers .layers-analysis span {
+        font-size: 12px;
+    }
+
+    .mobile-menu-content .cloud-layers .layer-visibility .upper-part p {
+        font-size: 13px;
+    }
+
+    /* Адаптация finish-analysis внутри мобильного меню */
+    .mobile-menu-content .finish-analysis .button-download {
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis {
+        padding: 10px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis h3 {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .percentage h1 {
+        font-size: 30px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .percentage span,
+    .mobile-menu-content .finish-analysis .result-analysis .verdict span,
+    .mobile-menu-content .finish-analysis .result-analysis .temperature span,
+    .mobile-menu-content .finish-analysis .result-analysis .dynamics span {
+        font-size: 12px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .verdict .text h4,
+    .mobile-menu-content .finish-analysis .result-analysis .dynamics .text h4 {
+        font-size: 14px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .verdict .text p,
+    .mobile-menu-content .finish-analysis .result-analysis .dynamics .text p {
+        font-size: 12px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .temperature .temperature-indicators .indicator p {
+        font-size: 18px;
+    }
+
+    .mobile-menu-content .finish-analysis .result-analysis .temperature .temperature-indicators .indicator span {
+        font-size: 11px;
+    }
+}

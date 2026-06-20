@@ -1,0 +1,1565 @@
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/bg-home.png');
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.centered-container {
+    display: flex;
+    width: fit-content;
+    height: 900px;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(40, 34, 47, .95), rgba(52, 40, 53, .95));
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 100%;
+    padding-top: 110px;
+    margin: 0 65px 0 45px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.logo .logo-icon {
+    width: 100%;
+}
+
+.logo .logo-icon svg {
+    width: 100%;
+}
+
+.logo p {
+    color: rgb(196, 209, 224);
+    font-size: 20px;
+    font-weight: 200;
+} 
+
+.description {
+    width: 100%;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.instruction {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.instruction p {
+    width: 100%;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.instruction .instruction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 0;
+    list-style-type: none;
+}
+
+.instruction .instruction-list .list-element {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.instruction .instruction-list .list-element .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+}
+
+.instruction .instruction-list .list-element:nth-child(1) .icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.instruction .instruction-list .list-element:nth-child(2) .icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+.instruction .instruction-list .list-element:nth-child(3) .icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.instruction .instruction-list .list-element .text {
+    display: flex;
+    flex-direction: column;
+}
+
+.instruction .instruction-list .list-element .text h5 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.instruction .instruction-list .list-element .text p {
+    color: rgb(196, 209, 224);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.config-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 650px;
+    height: 100%;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 15px;
+    background-color: rgb(41, 33, 47);
+    padding: 25px 0 25px;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: fit-content;
+    position: relative;
+}
+
+.menu-section::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: rgb(155, 137, 153);
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+}
+
+.menu-section:last-child::before {
+    display: none;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-header .main-part {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.section-header .main-part span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+}
+
+.section-header .main-part span svg{
+    height: 100%;
+}
+
+.section-header .main-part h3{
+    color: #fff;
+    font-size: 19px;
+    font-weight: 400;
+}
+
+.section-header .additional-part {
+    display: flex;
+}
+
+.section-header .additional-part button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 270px;
+    height: 52px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    border: 1px solid rgb(155, 137, 153);
+    background-color: rgb(27, 22, 33);
+    user-select: none;
+    cursor: pointer;
+}
+
+.section-header .additional-part button:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.section-header .additional-part button:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.section-header .additional-part button._active {
+    background-color: rgb(137, 62, 40);
+}
+
+.section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section-content span {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.section-content .coordinates-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: fit-content;
+}
+
+.section-content .coordinates-container .input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 220px;
+    height: fit-content;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+    padding: 10px 15px 13px;
+}
+
+.section-content .coordinates-container .input-group:focus-within{
+    border-color: #FFB6A4;
+}
+
+.section-content .coordinates-container .input-group .input-label{
+    color: rgb(157, 167, 184);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.section-content .coordinates-container .input-wrapper{
+    display: flex;
+    gap: 15px;
+}
+
+.section-content .coordinates-container .input-wrapper span{
+    width: fit-content;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.section-content .coordinates-container .input-wrapper input{
+    all: unset;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* Убираем стрелочки у type="number" */
+.section-content .coordinates-container .input-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.section-content .coordinates-container .input-wrapper input[type="number"]::-webkit-inner-spin-button,
+.section-content .coordinates-container .input-wrapper input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Контейнер для селектов */
+.section-content .selects-container{
+    display: flex;
+    gap: 15px;
+    align-items: end;
+    width: 100%;
+}
+
+/* Стили для инпутов даты и времени */
+.section-content .inputs-container{
+    display: flex;
+    gap: 15px;
+    align-items: end;
+    width: 100%;
+}
+
+.section-content .inputs-container .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.section-content .inputs-container .input-wrapper .input-label{
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.section-content .inputs-container .input-wrapper input{
+    all: unset;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 55px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+    padding: 10px 15px 13px;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+}
+
+.section-content .inputs-container .input-wrapper input:focus{
+    border-color: #FFB6A4;
+}
+
+.section-content .inputs-container .input-wrapper input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.section-content .inputs-container .input-wrapper input[type="time"]::-webkit-inner-spin-button, 
+.section-content .inputs-container .input-wrapper input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+.controls{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(50px + 30px);
+    min-height: calc(50px + 30px);
+    padding: 0 20px;
+}
+
+.controls .buttons-group{
+    display: flex;
+    align-items: end;
+    gap: 15px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.controls .buttons-group::before{
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: rgb(155, 137, 153);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.controls .buttons-group .button-reset{
+    all: unset;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 50px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+    user-select: none;
+    cursor: pointer;
+}
+
+.controls .buttons-group .button-reset .icon{
+    width: 16px;
+    height: 16px;
+}
+
+.controls .buttons-group .button-reset .icon svg{
+    width: 100%;
+    height: 100%;
+}
+
+.controls .buttons-group .button-reset .text{
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.controls .buttons-group .button-start{
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 7px;
+    background: linear-gradient(45deg, rgb(252, 118, 68) 0%, rgb(180, 63, 110) 50%, rgb(109, 57, 202) 100%);
+    user-select: none;
+    cursor: pointer;
+}
+
+
+
+
+@media (min-width: 1600px) and (max-height: 950px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}
+
+@media (min-width: 1600px) and (max-height: 750px) {
+    .info-container {
+        padding-top: 70px;
+    }
+}
+
+
+@media (max-width: 1600px) {
+    .centered-container {
+        height: 750px;
+    }
+
+
+
+    .info-container {
+        width: 360px;
+    }
+
+    .logo p {
+        font-size: 18px;
+    } 
+
+
+    .description {
+        font-size: 18px;
+    }
+
+    .instruction p {
+        font-size: 18px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 55px;
+        min-width: 55px;
+        height: 55px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 27px;
+        height: 27px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 14px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 14px;
+    }
+
+
+
+    .section-header .main-part span{
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 17px;
+    }
+
+    .section-header .additional-part button {
+        width: 250px;
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .section-content span {
+        font-size: 14px;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 12px;
+        width: 200px;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 16px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 16px;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 14px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 50px;
+        font-size: 15px;
+        padding: 10px 12px 13px;
+    }
+}
+
+@media (max-width: 1600px) and (max-height: 800px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+
+    .info-container {
+        padding-top: 80px;
+    }
+}
+
+
+@media (max-width: 1300px) {
+    .centered-container {
+        height: 700px;
+    }
+
+
+
+    .info-container {
+        width: 320px;
+        padding-top: 80px;
+        margin: 0 45px 0 25px;
+    }
+
+    .logo p {
+        font-size: 18px;
+    } 
+
+
+    .description {
+        font-size: 18px;
+    }
+
+    .instruction p {
+        font-size: 18px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 55px;
+        min-width: 55px;
+        height: 55px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 27px;
+        height: 27px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 14px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 14px;
+    }
+
+
+
+    .config-container {
+        width: 580px;
+    }
+
+    .section-header .main-part span{
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 17px;
+    }
+
+    .section-header .additional-part button {
+        width: 250px;
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .section-content span {
+        font-size: 14px;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 12px;
+        width: 200px;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 16px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 16px;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 14px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 50px;
+        font-size: 15px;
+        padding: 10px 12px 13px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .centered-container {
+        flex-direction: column;
+        height: 700px;
+        overflow-y: auto;
+    }
+
+
+
+    .info-container {
+        width: 320px;
+        padding-top: 0;
+        margin: 30px 50px 40px;
+    }
+
+    .logo p {
+        font-size: 18px;
+    } 
+
+
+    .description {
+        font-size: 18px;
+    }
+
+    .instruction p {
+        font-size: 18px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 55px;
+        min-width: 55px;
+        height: 55px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 27px;
+        height: 27px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 14px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 14px;
+    }
+
+
+
+    .config-container {
+        width: 580px;
+        height: fit-content;
+    }
+
+    .menu-container {
+        height: fit-content;
+        overflow-y: visible;
+    }
+
+    .section-header .main-part span{
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 17px;
+    }
+
+    .section-header .additional-part button {
+        width: 250px;
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .section-content span {
+        font-size: 14px;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 12px;
+        width: 200px;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 16px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 16px;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 14px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 50px;
+        font-size: 15px;
+        padding: 10px 12px 13px;
+    }
+}
+
+@media (max-width: 1100px) and (max-height: 720px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 760px) {
+    .centered-container {
+        height: 700px;
+        overflow-y: auto;
+    }
+
+
+
+    .info-container {
+        width: 320px;
+        padding-top: 0;
+        margin: 20px 40px 35px;
+    }
+
+    .logo{
+        width: 300px;
+    }
+
+    .logo p {
+        font-size: 15px;
+    } 
+
+
+    .description {
+        font-size: 16px;
+    }
+
+    .instruction p {
+        font-size: 16px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 50px;
+        min-width: 50px;
+        height: 50px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 19px;
+        height: 19px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 13px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 13px;
+    }
+
+
+
+    .config-container {
+        width: 500px;
+        height: fit-content;
+    }
+
+    .menu-container {
+        height: fit-content;
+        overflow-y: visible;
+    }
+
+    .section-header .main-part span{
+        width: 18px;
+        height: 18px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 15px;
+    }
+
+    .section-header .additional-part button {
+        width: 100%;
+        height: 48px;
+        font-size: 13px;
+    }
+
+    .section-content span {
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 10px;
+        width: 180px;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 14px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 14px;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 47px;
+        font-size: 14px;
+        padding: 10px 12px 13px;
+    }
+
+
+
+    .section-content .selects-container{
+        gap: 10px;
+    }
+
+    .section-content .inputs-container{
+        gap: 10px;
+    }
+
+
+
+    .controls .buttons-group{
+        gap: 10px;
+    }
+
+
+    .controls .buttons-group .button-reset{
+        gap: 15px;
+        width: 100%;
+        height: 47px;
+    }
+
+    .controls .buttons-group .button-reset .icon{
+        width: 14px;
+        height: 14px;
+    }
+
+    .controls .buttons-group .button-reset .text{
+        font-size: 14px;
+    }
+
+
+    .controls .buttons-group .button-start{
+        height: 47px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 760px) and (max-height: 740px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 600px) {
+    .centered-container {
+        height: 700px;
+        padding: 20px 15px;
+        overflow-y: auto;
+    }
+
+
+
+    .info-container {
+        width: 320px;
+        padding-top: 0;
+        margin: 15px 20px 35px;
+    }
+
+    .logo{
+        width: 260px;
+        margin-bottom: 25px;
+    }
+
+    .logo p {
+        font-size: 13px;
+    } 
+
+
+    .description {
+        font-size: 14px;
+    }
+
+    .instruction p {
+        font-size: 14px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 12px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 12px;
+    }
+
+
+
+    .config-container {
+        width: 420px;
+        height: fit-content;
+        padding: 15px 0;
+    }
+
+    .menu-container {
+        height: fit-content;
+        overflow-y: visible;
+        padding: 0 15px;
+    }
+
+    .section-header .main-part span{
+        width: 16px;
+        height: 16px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 14px;
+    }
+
+    .section-header .additional-part button {
+        width: 100%;
+        height: 48px;
+        font-size: 12px;
+    }
+
+    .section-content span {
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 10px;
+        width: 180px;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 14px;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 47px;
+        font-size: 13px;
+        padding: 10px 12px 13px;
+    }
+
+
+
+    .section-content .selects-container{
+        gap: 10px;
+    }
+
+    .section-content .inputs-container{
+        gap: 10px;
+    }
+
+
+
+    .controls{
+        padding: 0 15px;
+    }
+
+    .controls .buttons-group{
+        gap: 10px;
+    }
+
+
+    .controls .buttons-group .button-reset{
+        gap: 15px;
+        width: 100%;
+        height: 47px;
+    }
+
+    .controls .buttons-group .button-reset .icon{
+        width: 12px;
+        height: 12px;
+        margin: 0 0 5px;
+    }
+
+    .controls .buttons-group .button-reset .text{
+        font-size: 13px;
+    }
+
+
+    .controls .buttons-group .button-start{
+        height: 47px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 600px) and (max-height: 740px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 500px) {
+    .centered-container {
+        height: 700px;
+        padding: 20px 15px;
+        overflow-y: auto;
+    }
+
+
+
+    .info-container {
+        width: 280px;
+        padding-top: 0;
+        margin: 15px 10px 35px;
+    }
+
+    .logo{
+        width: 260px;
+        margin-bottom: 25px;
+    }
+
+    .logo p {
+        font-size: 13px;
+    } 
+
+
+    .description {
+        font-size: 14px;
+    }
+
+    .instruction p {
+        font-size: 14px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 12px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 12px;
+    }
+
+
+
+    .config-container {
+        width: 320px;
+        height: fit-content;
+        padding: 15px 0;
+    }
+
+    .menu-container {
+        height: fit-content;
+        overflow-y: visible;
+        padding: 0 15px;
+    }
+
+    .section-header .main-part span{
+        width: 16px;
+        height: 16px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 14px;
+    }
+
+    .section-header .additional-part{
+        flex-direction: column;
+    }
+
+    .section-header .additional-part button {
+        width: 100%;
+        height: 48px;
+        font-size: 12px;
+    }
+
+    .section-header .additional-part button:first-child {
+        border-radius: 5px 5px 0 0;
+    }
+
+    .section-header .additional-part button:last-child {
+        border-radius: 0 0 5px 5px;
+    }
+
+    .section-content span {
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 10px;
+        width: 100%;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 13px;
+    }
+
+
+    .section-content .selects-container{
+        gap: 10px;
+        flex-direction: column;
+    }
+
+
+    .section-content .inputs-container{
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 47px;
+        font-size: 13px;
+        padding: 10px 12px 13px;
+    }
+
+
+
+    .controls{
+        height: fit-content;
+        padding: 0 15px;
+    }
+
+    .controls .buttons-group{
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 20px;
+    }
+
+
+    .controls .buttons-group .button-reset{
+        gap: 15px;
+        width: 100%;
+        height: 47px;
+    }
+
+    .controls .buttons-group .button-reset .icon{
+        width: 12px;
+        height: 12px;
+        margin: 0 0 5px;
+    }
+
+    .controls .buttons-group .button-reset .text{
+        font-size: 13px;
+    }
+
+
+    .controls .buttons-group .button-start{
+        height: 47px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 500px) and (max-height: 740px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 400px) {
+    .centered-container {
+        height: 700px;
+        padding: 20px 15px;
+        overflow-y: auto;
+    }
+
+
+
+    .info-container {
+        width: 240px;
+        padding-top: 0;
+        margin: 15px 5px 35px;
+    }
+
+    .logo{
+        width: 220px;
+        margin-bottom: 25px;
+    }
+
+    .logo p {
+        font-size: 12px;
+    } 
+
+
+    .description {
+        font-size: 13px;
+    }
+
+    .instruction p {
+        font-size: 13px;
+    }
+
+
+    .instruction .instruction-list .list-element .icon {
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(1) .icon svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(2) .icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .instruction .instruction-list .list-element:nth-child(3) .icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+
+    .instruction .instruction-list .list-element .text h5 {
+        font-size: 12px;
+    }
+
+    .instruction .instruction-list .list-element .text p {
+        font-size: 12px;
+    }
+
+
+
+    .config-container {
+        width: 280px;
+        height: fit-content;
+        padding: 15px 0;
+    }
+
+    .menu-container {
+        height: fit-content;
+        overflow-y: visible;
+        padding: 0 15px;
+    }
+
+    .section-header .main-part span{
+        width: 16px;
+        height: 16px;
+    }
+
+    .section-header .main-part h3{
+        font-size: 14px;
+    }
+
+    .section-header .additional-part{
+        flex-direction: column;
+    }
+
+    .section-header .additional-part button {
+        width: 100%;
+        height: 48px;
+        font-size: 12px;
+    }
+
+    .section-header .additional-part button:first-child {
+        border-radius: 5px 5px 0 0;
+    }
+
+    .section-header .additional-part button:last-child {
+        border-radius: 0 0 5px 5px;
+    }
+
+    .section-content span {
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .section-content .coordinates-container .input-group{
+        gap: 10px;
+        width: 100%;
+        padding: 10px 12px 13px;
+    }
+
+    .section-content .coordinates-container .input-group .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .coordinates-container .input-wrapper span{
+        font-size: 13px;
+    }
+
+    .section-content .coordinates-container .input-wrapper input{
+        font-size: 13px;
+    }
+
+
+    .section-content .selects-container{
+        gap: 10px;
+        flex-direction: column;
+    }
+
+
+    .section-content .inputs-container{
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .section-content .inputs-container .input-wrapper .input-label{
+        font-size: 12px;
+    }
+
+    .section-content .inputs-container .input-wrapper input{
+        height: 47px;
+        font-size: 13px;
+        padding: 10px 12px 13px;
+    }
+
+
+
+    .controls{
+        height: fit-content;
+        padding: 0 15px;
+    }
+
+    .controls .buttons-group{
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 20px;
+    }
+
+
+    .controls .buttons-group .button-reset{
+        gap: 15px;
+        width: 100%;
+        height: 47px;
+    }
+
+    .controls .buttons-group .button-reset .icon{
+        width: 12px;
+        height: 12px;
+        margin: 0 0 5px;
+    }
+
+    .controls .buttons-group .button-reset .text{
+        font-size: 13px;
+    }
+
+
+    .controls .buttons-group .button-start{
+        height: 47px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) and (max-height: 740px) {
+    .centered-container {
+        height: calc(100vh - 40px);
+    }
+}

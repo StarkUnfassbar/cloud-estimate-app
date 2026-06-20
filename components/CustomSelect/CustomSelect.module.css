@@ -1,0 +1,214 @@
+.select-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    user-select: none;
+}
+
+.select-label {
+    color: rgb(157, 167, 184);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.custom-select {
+    position: relative;
+    width: calc(50% - 10px);
+}
+
+.select-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 55px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+    padding: 10px 15px 13px;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+}
+
+.select-trigger.open {
+    border-color: #FFB6A4;
+}
+
+.select-trigger .select-value {
+    flex: 1;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.mark-recommendation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFB6A4;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 20px;
+    background-color: #894328;
+    padding: 4px 13px;
+    margin-right: 15px;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s ease;
+}
+
+.arrow-up {
+    transform: rotate(180deg);
+}
+
+.arrow svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Стили для дропдауна с контролем видимости */
+.select-dropdown-portal {
+    max-height: 300px;
+    border: 1px solid rgb(155, 137, 153);
+    border-radius: 7px;
+    background-color: rgb(27, 22, 33);
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.select-dropdown-portal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.select-dropdown-portal.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.select-dropdown-portal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.select-dropdown-portal::-webkit-scrollbar-track {
+    background: rgb(27, 22, 33);
+    border-radius: 7px;
+}
+
+.select-dropdown-portal::-webkit-scrollbar-thumb {
+    background: rgb(155, 137, 153);
+    border-radius: 7px;
+}
+
+.select-dropdown-portal::-webkit-scrollbar-thumb:hover {
+    background: #FFB6A4;
+}
+
+.select-dropdown-portal .select-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 44px;
+    color: #fff;
+    font-size: 14px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.select-dropdown-portal .select-option:hover {
+    background-color: rgba(155, 137, 153, 0.2);
+}
+
+.select-dropdown-portal .select-option.selected {
+    background-color: rgba(255, 182, 164, 0.1);
+    border-left: 3px solid #FFB6A4;
+}
+
+.select-dropdown-portal .select-option .option-recommendation-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFB6A4;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 20px;
+    background-color: #894328;
+    padding: 4px 13px;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+
+
+@media (max-width: 1600px) {
+    .select-label {
+        font-size: 14px;
+    }
+
+    .select-trigger {
+        height: 50px;
+        padding: 10px 12px 13px;
+    }
+
+    .select-trigger .select-value {
+        font-size: 15px;
+    }
+
+    .mark-recommendation {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .select-label {
+        font-size: 12px;
+    }
+
+    .select-trigger {
+        height: 47px;
+        padding: 10px 12px 13px;
+    }
+
+    .select-trigger .select-value {
+        font-size: 14px;
+    }
+
+    .mark-recommendation {
+        font-size: 10px;
+    }
+
+    .select-dropdown-portal .select-option .option-recommendation-badge {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .select-trigger .select-value {
+        font-size: 13px;
+    }
+
+    .mark-recommendation {
+        font-size: 10px;
+        padding: 4px 8px;
+        margin-right: 5px;
+    }
+
+    .arrow {
+        width: 13px;
+        height: 13px;
+    }
+}
