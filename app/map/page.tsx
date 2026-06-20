@@ -125,9 +125,9 @@ function MapContent() {
 
     const dataSourceOptions = [
         { value: 'nasa', label: 'NASA', recommended: true },
-        { value: 'esa', label: 'ESA' },
         { value: 'roscosmos', label: 'Роскосмос' },
-        { value: 'cnsa', label: 'CNSA' }
+        { value: 'eumetsat', label: 'EUMETSAT' },
+        { value: 'copernicus', label: 'Copernicus' }
     ];
 
     const [selectedDataSource, setSelectedDataSource] = useState(

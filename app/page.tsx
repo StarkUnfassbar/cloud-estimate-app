@@ -33,14 +33,14 @@ const regionOptions = [
 export default function Home() {
     const router = useRouter();
 
-    const [regionInputType, setRegionInputType] = useState("draw"); // ← изменено с "coords" на "draw"
+    const [regionInputType, setRegionInputType] = useState("draw");
     const [selectedRegion, setSelectedRegion] = useState('moscow');
     
     const dataSourceOptions = [
         { value: 'nasa', label: 'NASA', recommended: true },
-        { value: 'esa', label: 'ESA' },
         { value: 'roscosmos', label: 'Роскосмос' },
-        { value: 'cnsa', label: 'CNSA' }
+        { value: 'eumetsat', label: 'EUMETSAT' },
+        { value: 'copernicus', label: 'Copernicus' }
     ];
 
     const [selectedDataSource, setSelectedDataSource] = useState('nasa');
@@ -143,7 +143,7 @@ export default function Home() {
         setSelectedDate('');
         setSelectedTime('');
         setSelectedDataSource('nasa');
-        setRegionInputType('draw'); // ← также изменено с "coords" на "draw"
+        setRegionInputType('draw');
         setSelectedRegion('moscow');
     };
 
